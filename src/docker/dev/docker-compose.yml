@@ -1,0 +1,35 @@
+version: '2'
+services:
+  test:
+    build: 
+      context: ../../../
+      dockerfile: src/docker/dev/Dockerfile
+    volumes_from: 
+      - cache
+    links: 
+      - db
+    depends_on: 
+      - db
+    command: ["wait-for-it.sh", "db:3306", "--", "python", "manage.py", "test", "--noinput"]
+    environment:
+      - DJANGO_SETTINGS_MODULE=todobackend.settings.test
+      - MYSQL_HOST=db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=password
+      - TEST_OUTPUT_DIR=/reports
+
+  db: 
+    image: mysql:5.7
+    hostname: db
+    expose:
+      - "3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD="password"
+
+  cache:
+    build: 
+      context: ../../../
+      dockerfile: src/docker/dev/Dockerfile
+    volumes:
+      - /tmp/cache:/root/.cache
+    entrypoint: "true"
