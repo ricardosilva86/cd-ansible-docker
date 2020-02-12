@@ -3,7 +3,7 @@ backports.functools-lru-cache==1.5
 colorama==0.4.1
 configparser==3.7.4
 coverage==4.5.4
-Django==1.9
+Django==1.11.28
 django-cors-headers==1.1.0
 django-nose==1.4.6
 djangorestframework==3.3.0
